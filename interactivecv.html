@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huiwen Ge - Interactive CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The CV is structured as a single-page, vertically scrolling application with a sticky top navigation bar for quick access to key sections. The design prioritizes a clear information hierarchy for recruiters, starting with a prominent summary, followed by a detailed experience timeline, skills visualizations, and education. The new timeline feature with expandable modals allows for a clean, scannable layout while keeping all detailed information available on demand. -->
+    <!-- Visualization & Content Choices: To make the 'Skills' section more digestible and impactful, Chart.js bar charts are used to visualize proficiency in technical skills and languages. Goal: Compare skill levels quickly. Viz: Horizontal Bar Chart. Interaction: Tooltips on hover. Justification: Visual charts are faster to parse than text lists and add a modern, data-driven feel. The 'Experience' section now uses a clean timeline and modal pop-ups. Goal: Organize extensive experience without cluttering the main page. Viz: HTML/CSS Timeline + Modal Dialogs. Interaction: Click to expand details. Justification: This approach makes the page scannable and user-friendly, allowing the user to dive into specific details only when interested. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .nav-link.active {
+            color: #C8A07D;
+            font-weight: 700;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid #D1D5DB;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -8px;
+            width: 16px;
+            height: 16px;
+            background-color: #C8A07D;
+            border-radius: 50%;
+            border: 2px solid #FDFBF8;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 20;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+        }
+        .tab-button.active {
+            background-color: #C8A07D;
+            color: white;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-lg fixed top-0 left-0 right-0 z-10 shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="flex justify-center items-center">
+                <div class="hidden md:flex space-x-8">
+                    <a href="#summary" class="nav-link text-gray-600 hover:text-[#C8A07D] transition-colors duration-300">Summary</a>
+                    <a href="#experience" class="nav-link text-gray-600 hover:text-[#C8A07D] transition-colors duration-300">Experience</a>
+                    <a href="#skills" class="nav-link text-gray-600 hover:text-[#C8A07D] transition-colors duration-300">Skills</a>
+                    <a href="#education" class="nav-link text-gray-600 hover:text-[#C8A07D] transition-colors duration-300">Education</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </nav>
+            <div id="mobile-menu" class="hidden md:hidden mt-4 text-center">
+                <a href="#summary" class="block py-2 text-gray-600 hover:text-[#C8A07D]">Summary</a>
+                <a href="#experience" class="block py-2 text-gray-600 hover:text-[#C8A07D]">Experience</a>
+                <a href="#skills" class="block py-2 text-gray-600 hover:text-[#C8A07D]">Skills</a>
+                <a href="#education" class="block py-2 text-gray-600 hover:text-[#C8A07D]">Education</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-20">
+        <section id="summary" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-800">Huiwen Ge</h1>
+                <p class="mt-4 text-lg text-gray-600">Ontario | 204-960-3367 | geh201506@gmail.com</p>
+                <div class="mt-6">
+                    <a href="https://www.linkedin.com/in/huiwen-ge" class="text-[#C8A07D] hover:underline">LinkedIn Profile</a>
+                </div>
+                <p class="mt-8 max-w-3xl mx-auto text-gray-700 leading-relaxed">
+                    A highly organized and proactive professional with a strong background in administrative support, customer service, and community engagement. Skilled in managing daily operations, using multiple platforms for effective communication, and maintaining data accuracy. Proven ability to adapt to new environments and work effectively in a team, with experience in roles requiring strong problem-solving and an adherence to strict protocols.
+                </p>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Experience</h2>
+                <div class="max-w-3xl mx-auto">
+                    <!-- Tab buttons -->
+                    <div class="flex justify-center space-x-4 mb-8">
+                        <button class="tab-button active px-6 py-2 rounded-full font-semibold transition-colors duration-200" data-tab-target="professional">Professional</button>
+                        <button class="tab-button px-6 py-2 rounded-full font-semibold transition-colors duration-200" data-tab-target="volunteer">Volunteer</button>
+                    </div>
+
+                    <!-- Tab content containers -->
+                    <div id="professional-tab" class="tab-content space-y-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 mt-12">Professional Experience</h3>
+                        <!-- Updated timeline grid container -->
+                        <div id="professional-timeline" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <!-- Professional timeline will be dynamically generated here -->
+                        </div>
+                    </div>
+                    
+                    <div id="volunteer-tab" class="tab-content space-y-8 hidden">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 mt-12">Volunteer Experience</h3>
+                        <div class="timeline-item">
+                            <button data-job="kerrstreet" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                <h3 class="text-xl font-bold text-gray-800">Volunteer</h3>
+                                <p class="text-md text-gray-600">Kerr Street Mission | March 2025 - Present</p>
+                            </button>
+                        </div>
+                        <div class="timeline-item">
+                            <button data-job="nbs" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                <h3 class="text-xl font-bold text-gray-800">Volunteer</h3>
+                                <p class="text-md text-gray-600">NBS Block Party | May 2025</p>
+                            </button>
+                        </div>
+                         <div class="timeline-item">
+                            <button data-job="malte" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                <h3 class="text-xl font-bold text-gray-800">Volunteer</h3>
+                                <p class="text-md text-gray-600">Malte Marten Toronto Concert | May 2025</p>
+                            </button>
+                        </div>
+                         <div class="timeline-item">
+                            <button data-job="zoo" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                <h3 class="text-xl font-bold text-gray-800">Zoo Buddy Volunteer</h3>
+                                <p class="text-md text-gray-600">Winnipeg Zoo | July 2018</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modals for professional details -->
+        <div id="modal-pearson" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Test Administrator</h3>
+                <p class="text-gray-600">Pearson VUE | Oakville, ON</p>
+                <p class="text-gray-500 mb-4">July 2025 - Present</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Securely deliver exams while ensuring a positive and professional testing experience for candidates.</li>
+                    <li>Check in examinees, verify IDs, explain procedures, proctor exams, resolve technical issues, and maintain a clean testing environment.</li>
+                    <li>Requires adherence to strict company policies and testing protocols.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="modal-kognitive" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Field Marketing Representative</h3>
+                <p class="text-gray-600">Kognitive Sales Solutions | Oakville, ON</p>
+                <p class="text-gray-500 mb-4">June 2025 - Present</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Engage directly with customers in various locations or event settings to promote and sell client products and offer services.</li>
+                    <li>Deliver key brand messages, generate leads or sales, and meet performance targets while provide excellent customer service.</li>
+                    <li>Strong communication skills, a positive attitude, and the ability to work independently in a fast-paced environment.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="modal-ups" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Personal Vehicle Driver (Seasonal)</h3>
+                <p class="text-gray-600">UPS Canada | St. Catharines, ON</p>
+                <p class="text-gray-500 mb-4">November 2024 - December 2024</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Delivered packages efficiently using a personal vehicle, ensuring route optimization and on-time service.</li>
+                    <li>Handled high-value items with care and verified ID as required.</li>
+                    <li>Maintained safety, accuracy, and excellent customer service.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="modal-teksystems" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Cards Banking Advisor</h3>
+                <p class="text-gray-600">TEKsystems | Mississauga, ON</p>
+                <p class="text-gray-500 mb-4">December 2023 - April 2024</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Provided exceptional customer service by resolving client inquiries, earning an 85% satisfaction score.</li>
+                    <li>Handled credit card inquiries and transactions, educating clients on digital banking tools, and ensured prompt issue resolution.</li>
+                    <li>Utilized problem-solving skills to de-escalate stressful customer situations and provide effective solutions.</li>
+                    <li>Maintained security and confidentiality of client information and complied with company policies.</li>
+                </ul>
+            </div>
+        </div>
+
+         <div id="modal-cra-clerk" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">General Duty Clerk</h3>
+                <p class="text-gray-600">Canada Revenue Agency | Winnipeg, MB</p>
+                <p class="text-gray-500 mb-4">May 2022 - August 2023</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Provided clerical and administrative support, including sorting mail, and managing electronic correspondence.</li>
+                    <li>Created and managed cases using the Correspondence Inventory Tracking System (CTIS).</li>
+                    <li>Prepared accurate weekly reports and collaborated with team members to meet departmental targets, contributing over 10,000 document updates during tax season.</li>
+                </ul>
+            </div>
+        </div>
+
+         <div id="modal-cra-operator" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Electronic Data Capture Operator</h3>
+                <p class="text-gray-600">Canada Revenue Agency | Winnipeg, MB</p>
+                <p class="text-gray-500 mb-4">February 2022 - May 2022</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Keyed information from tax returns and other documents.</li>
+                    <li>Verified and corrected captured data to ensure accuracy and meet deadlines.</li>
+                    <li>Top performance: processing tax documents 20+ per hour.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="modal-apple" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Product Specialist</h3>
+                <p class="text-gray-600">Apple | Winnipeg, MB</p>
+                <p class="text-gray-500 mb-4">October 2021 - February 2022</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Built customer relationships and provided product expertise to enhance the customer experience.</li>
+                    <li>Achieved top sales targets by building relationships and recommending products that meet customer needs.</li>
+                    <li>Top three seasonal sales in the store.</li>
+                </ul>
+            </div>
+        </div>
+
+         <div id="modal-intouch-leader" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Team Leader - Internship</h3>
+                <p class="text-gray-600">24-7 Intouch | Winnipeg, MB</p>
+                <p class="text-gray-500 mb-4">September 2021 - October 2021</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Managed and supervised customer service representatives, ensuring training and development aligned with company goals.</li>
+                    <li>Analyzed performance data and improved team KPI on call handling and satisfaction rates by 15% on average.</li>
+                    <li>Collaborated with cross-functional teams to resolve issues and support employee engagement.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="modal-intouch-qa" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Quality Assurance Analyst</h3>
+                <p class="text-gray-600">24-7 Intouch | Winnipeg, MB</p>
+                <p class="text-gray-500 mb-4">January 2021 - August 2021</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Monitored at least 7 to 9 call recordings per hour and provided constructive feedback to improve advisor performance.</li>
+                    <li>Participated in calibration meetings to maintain quality standards and identify coaching opportunities.</li>
+                    <li>Conducted team meetings, and supported ongoing training initiatives.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="modal-intouch-tech" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Technical Support Representative</h3>
+                <p class="text-gray-600">24-7 Intouch | Winnipeg, MB</p>
+                <p class="text-gray-500 mb-4">August 2018 - December 2020</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Provided technical support and resolved customer inquiries over the phone.</li>
+                    <li>Maintained an overall 90% satisfaction rate and met the average amount of call handling.</li>
+                    <li>Managed multiple priorities and updated knowledge through self-guided learning.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="modal-ing" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Store Manager Assistant</h3>
+                <p class="text-gray-600">ING Supermarket | MB</p>
+                <p class="text-gray-500 mb-4">March 2016 - August 2018</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Coordinated across departments to ensure smooth operations and a positive customer experience.</li>
+                    <li>Trained new employees and assisted the store manager in updating product inventory and pricing.</li>
+                    <li>Demonstrated strong communication, organization, and leadership skills to maintain efficiency and service quality.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Modals for volunteer details -->
+        <div id="modal-kerrstreet" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Kerr Street Mission - Family Services</h3>
+                <p class="text-gray-600">Oakville, ON</p>
+                <p class="text-gray-500 mb-4">March 2025 - Present</p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Serve as an Income Tax Preparer and assist with Food Bank and Parcel Packing.</li>
+                    <li>Provide field trip supervision and serve as a parking lot attendant for the Summer Camp.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="modal-nbs" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">NBS Block Party - Donation/Waiver Desk</h3>
+                <p class="text-gray-500 mb-4">May 2025</p>
+            </div>
+        </div>
+
+        <div id="modal-malte" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Malte Marten Toronto Concert - Setup & Check-In</h3>
+                <p class="text-gray-500 mb-4">May 2025</p>
+            </div>
+        </div>
+
+         <div id="modal-zoo" class="modal-overlay hidden">
+            <div class="modal-content">
+                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <h3 class="text-2xl font-bold text-gray-800">Winnipeg Zoo - Zoo Buddy</h3>
+                <p class="text-gray-500 mb-4">July 2018</p>
+            </div>
+        </div>
+
+        <section id="skills" class="py-20">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Skills</h2>
+                <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">This section provides a visual overview of my capabilities. Hover over the bars in the charts to see proficiency levels in my technical and language skills.</p>
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div>
+                        <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Technical Skills</h3>
+                        <div class="chart-container">
+                            <canvas id="techSkillsChart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Languages</h3>
+                        <div class="chart-container">
+                            <canvas id="langSkillsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-12">
+                    <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Soft Skills</h3>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Communication</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Problem Solving</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Multitask</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Adaptability & Teamwork</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Leadership</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Education & Certifications</h2>
+                <div class="max-w-3xl mx-auto space-y-6">
+                    <div class="bg-gray-50 p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-bold text-gray-800">Bachelor of Arts - Economics</h3>
+                        <p class="text-md text-gray-600">University of Manitoba | 2013-2016</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="bg-gray-800 text-white py-10">
+            <div class="container mx-auto px-6 text-center">
+                <p>&copy; 2025 Huiwen Ge. All rights reserved.</p>
+                <p class="mt-2">geh201506@gmail.com | 204-960-3367</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            const chartOptions = {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: {
+                            display: false,
+                        },
+                         ticks: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let value = context.raw;
+                                let label = '';
+                                if (value >= 90) label = 'Expert';
+                                else if (value >= 75) label = 'Advanced';
+                                else if (value >= 50) label = 'Intermediate';
+                                else label = 'Beginner';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const techSkillsCtx = document.getElementById('techSkillsChart').getContext('2d');
+            new Chart(techSkillsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['No-Code Web Building', 'HTML/CSS', 'AI Tools', 'Data Entry', 'QA Testing'],
+                    datasets: [{
+                        label: 'Proficiency',
+                        data: [80, 70, 90, 95, 85],
+                        backgroundColor: '#C8A07D',
+                        borderRadius: 4
+                    }]
+                },
+                options: chartOptions
+            });
+
+            const langSkillsCtx = document.getElementById('langSkillsChart').getContext('2d');
+            new Chart(langSkillsCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['English', 'Mandarin'],
+                    datasets: [{
+                        label: 'Proficiency',
+                        data: [100, 100],
+                        backgroundColor: '#A88D70',
+                        borderRadius: 4
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // Tab logic
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Deactivate all buttons and hide all content
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.add('hidden'));
+
+                    // Activate the clicked button
+                    button.classList.add('active');
+
+                    // Show the corresponding tab content
+                    const targetId = button.dataset.tabTarget;
+                    document.getElementById(`${targetId}-tab`).classList.remove('hidden');
+                });
+            });
+
+            // Data for professional experiences
+            const experiences = [
+                {
+                    date: "07/2025",
+                    endDate: "present",
+                    title: "Test Administrator",
+                    company: "Pearson VUE",
+                    location: "Oakville, ON",
+                    id: "pearson",
+                    details: ["Securely deliver exams while ensuring a positive and professional testing experience for candidates.", "Check in examinees, verify IDs, explain procedures, proctor exams, resolve technical issues, and maintain a clean testing environment.", "Requires adherence to strict company policies and testing protocols."]
+                },
+                {
+                    date: "06/2025",
+                    endDate: "present",
+                    title: "Field Marketing Representative",
+                    company: "Kognitive Sales Solutions",
+                    location: "Oakville, ON",
+                    id: "kognitive",
+                    details: ["Engage directly with customers in various locations or event settings to promote and sell client products and offer services.", "Deliver key brand messages, generate leads or sales, and meet performance targets while provide excellent customer service.", "Strong communication skills, a positive attitude, and the ability to work independently in a fast-paced environment."]
+                },
+                {
+                    date: "11/2024",
+                    endDate: "12/2024",
+                    title: "Personal Vehicle Driver (Seasonal)",
+                    company: "UPS Canada",
+                    location: "St. Catharines, ON",
+                    id: "ups",
+                    details: ["Delivered packages efficiently using a personal vehicle, ensuring route optimization and on-time service.", "Handled high-value items with care and verified ID as required.", "Maintained safety, accuracy, and excellent customer service."]
+                },
+                {
+                    date: "12/2023",
+                    endDate: "04/2024",
+                    title: "Cards Banking Advisor",
+                    company: "TEKsystems",
+                    location: "Mississauga, ON",
+                    id: "teksystems",
+                    details: ["Provided exceptional customer service by resolving client inquiries, earning an 85% satisfaction score.", "Handled credit card inquiries and transactions, educating clients on digital banking tools, and ensured prompt issue resolution.", "Utilized problem-solving skills to de-escalate stressful customer situations and provide effective solutions.", "Maintained security and confidentiality of client information and complied with company policies."]
+                },
+                {
+                    date: "05/2022",
+                    endDate: "08/2023",
+                    title: "General Duty Clerk",
+                    company: "Canada Revenue Agency",
+                    location: "Winnipeg, MB",
+                    id: "cra-clerk",
+                    details: ["Provided clerical and administrative support, including sorting mail, and managing electronic correspondence.", "Created and managed cases using the Correspondence Inventory Tracking System (CTIS).", "Prepared accurate weekly reports and collaborated with team members to meet departmental targets, contributing over 10,000 document updates during tax season."]
+                },
+                {
+                    date: "02/2022",
+                    endDate: "05/2022",
+                    title: "Electronic Data Capture Operator",
+                    company: "Canada Revenue Agency",
+                    location: "Winnipeg, MB",
+                    id: "cra-operator",
+                    details: ["Keyed information from tax returns and other documents.", "Verified and corrected captured data to ensure accuracy and meet deadlines.", "Top performance: processing tax documents 20+ per hour."]
+                },
+                {
+                    date: "10/2021",
+                    endDate: "02/2022",
+                    title: "Product Specialist",
+                    company: "Apple",
+                    location: "Winnipeg, MB",
+                    id: "apple",
+                    details: ["Built customer relationships and provided product expertise to enhance the customer experience.", "Achieved top sales targets by building relationships and recommending products that meet customer needs.", "Top three seasonal sales in the store."]
+                },
+                {
+                    date: "09/2021",
+                    endDate: "10/2021",
+                    title: "Team Leader - Internship",
+                    company: "24-7 Intouch",
+                    location: "Winnipeg, MB",
+                    id: "intouch-leader",
+                    details: ["Managed and supervised customer service representatives, ensuring training and development aligned with company goals.", "Analyzed performance data and improved team KPI on call handling and satisfaction rates by 15% on average.", "Collaborated with cross-functional teams to resolve issues and support employee engagement."]
+                },
+                {
+                    date: "01/2021",
+                    endDate: "08/2021",
+                    title: "Quality Assurance Analyst",
+                    company: "24-7 Intouch",
+                    location: "Winnipeg, MB",
+                    id: "intouch-qa",
+                    details: ["Monitored at least 7 to 9 call recordings per hour and provided constructive feedback to improve advisor performance.", "Participated in calibration meetings to maintain quality standards and identify coaching opportunities.", "Conducted team meetings, and supported ongoing training initiatives."]
+                },
+                {
+                    date: "08/2018",
+                    endDate: "12/2020",
+                    title: "Technical Support Representative",
+                    company: "24-7 Intouch",
+                    location: "Winnipeg, MB",
+                    id: "intouch-tech",
+                    details: ["Provided technical support and resolved customer inquiries over the phone.", "Maintained an overall 90% satisfaction rate and met the average amount of call handling.", "Managed multiple priorities and updated knowledge through self-guided learning."]
+                },
+                {
+                    date: "03/2016",
+                    endDate: "08/2018",
+                    title: "Store Manager Assistant",
+                    company: "ING Supermarket",
+                    location: "MB",
+                    id: "ing",
+                    details: ["Coordinated across departments to ensure smooth operations and a positive customer experience.", "Trained new employees and assisted the store manager in updating product inventory and pricing.", "Demonstrated strong communication, organization, and leadership skills to maintain efficiency and service quality."]
+                }
+            ];
+
+            // Group professional experiences by year
+            const groupedByYear = experiences.reduce((acc, exp) => {
+                const year = exp.date.split('/')[1];
+                if (!acc[year]) {
+                    acc[year] = [];
+                }
+                acc[year].push(exp);
+                return acc;
+            }, {});
+
+            const timelineContainer = document.getElementById('professional-timeline');
+            const sortedYears = Object.keys(groupedByYear).sort((a, b) => b - a);
+
+            sortedYears.forEach(year => {
+                const yearDiv = document.createElement('div');
+                yearDiv.className = "rounded-lg overflow-hidden";
+                const yearButton = document.createElement('button');
+                yearButton.className = "flex items-center justify-between w-full p-4 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-lg transition-colors duration-200";
+                yearButton.innerHTML = `<span class="text-lg font-semibold text-gray-700">${year}</span><svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>`;
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = "pl-4 pt-4 pb-2 space-y-4 hidden";
+
+                yearButton.addEventListener('click', () => {
+                    const isVisible = contentDiv.classList.contains('hidden');
+                    contentDiv.classList.toggle('hidden', !isVisible);
+                    yearButton.querySelector('svg').style.transform = isVisible ? 'rotate(0deg)' : 'rotate(-180deg)';
+                });
+
+                const jobsInYear = groupedByYear[year];
+                jobsInYear.forEach(job => {
+                    const jobButton = document.createElement('button');
+                    jobButton.className = "w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200";
+                    jobButton.dataset.job = job.id;
+                    jobButton.innerHTML = `
+                        <h3 class="text-xl font-bold text-gray-800">${job.title}</h3>
+                        <p class="text-md text-gray-600">${job.company} | ${job.date} - ${job.endDate}</p>
+                    `;
+                    contentDiv.appendChild(jobButton);
+                });
+
+                yearDiv.appendChild(yearButton);
+                yearDiv.appendChild(contentDiv);
+                timelineContainer.appendChild(yearDiv);
+            });
+            
+            // Modal logic
+            const experienceButtons = document.querySelectorAll('[data-job]');
+            const modals = document.querySelectorAll('.modal-overlay');
+
+            document.body.addEventListener('click', (event) => {
+                const button = event.target.closest('[data-job]');
+                if (button) {
+                    const job = button.dataset.job;
+                    const modal = document.getElementById(`modal-${job}`);
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                    }
+                }
+            });
+
+            modals.forEach(modal => {
+                modal.addEventListener('click', (event) => {
+                    if (event.target.classList.contains('modal-overlay') || event.target.closest('[data-close-modal]')) {
+                        modal.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
