@@ -119,6 +119,7 @@
         border-color: rgba(200,160,125,0.45);
         }
 
+
     </style>
 </head>
 <body class="antialiased">
@@ -400,43 +401,29 @@ Technical customer support and operations professional with experience supportin
                 <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
-                <h3 class="text-2xl font-bold text-gray-800">Store Manager Assistant</h3>
-                <p class="text-gray-600">ING Supermarket | MB</p>
-                <p class="text-gray-500 mb-4">March 2016 - August 2018</p>
-                <ul class="list-disc list-inside text-gray-700 space-y-2">
-                    <li>Coordinated across departments to ensure smooth operations and a positive customer experience.</li>
-                    <li>Trained new employees and assisted the store manager in updating product inventory and pricing.</li>
-                    <li>Demonstrated strong communication, organization, and leadership skills to maintain efficiency and service quality.</li>
-                </ul>
             </div>
         </div>
 
-        <section id="skills" class="py-20">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Skills</h2>
-                <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">This section provides a visual overview of my capabilities. Hover over the bars in the charts to see proficiency level[...]</p>
-                <div class="grid md:grid-cols-2 gap-12 items-start">
-                    <div>
-                        <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Technical Skills</h3>
-                        <div class="chart-container">
-                            <canvas id="techSkillsChart"></canvas>
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Languages</h3>
-                        <div class="chart-container">
-                            <canvas id="langSkillsChart"></canvas>
-                        </div>
-                    </div>
-                </div>
+       <section id="skills" class="py-50">
+
                 <div class="mt-12">
-                    <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Soft Skills</h3>
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Soft Skills</h3>
                     <div class="flex flex-wrap justify-center gap-3">
                         <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Communication</span>
                         <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Problem Solving</span>
                         <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Relationship Building</span>
                         <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Compliance</span>
                         <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Outreach</span>
+                    </div>
+                </div>
+    <div class="mt-12">
+                    <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Technical Skills</h3>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Web Coding & Vibe Coding</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Ticketing Tracking</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Knowledge Base</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Documentation</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Issue Triage</span>
                     </div>
                 </div>
             </div>
@@ -515,50 +502,11 @@ Technical customer support and operations professional with experience supportin
                         display: false
                     },
                     tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let value = context.raw;
-                                let label = '';
-                                if (value >= 90) label = 'Expert';
-                                else if (value >= 75) label = 'Advanced';
-                                else if (value >= 50) label = 'Intermediate';
-                                else label = 'Beginner';
-                                return label;
-                            }
-                        }
+                        
                     }
                 }
             };
-            
-            const techSkillsCtx = document.getElementById('techSkillsChart').getContext('2d');
-            new Chart(techSkillsCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['No-Code Web Building', 'HTML/CSS', 'AI Tools', 'Data Entry', 'QA Testing'],
-                    datasets: [{
-                        label: 'Proficiency',
-                        data: [80, 70, 90, 95, 85],
-                        backgroundColor: '#C8A07D',
-                        borderRadius: 4
-                    }]
-                },
-                options: chartOptions
-            });
 
-            const langSkillsCtx = document.getElementById('langSkillsChart').getContext('2d');
-            new Chart(langSkillsCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['English', 'Mandarin'],
-                    datasets: [{
-                        label: 'Proficiency',
-                        data: [100, 100],
-                        backgroundColor: '#A88D70',
-                        borderRadius: 4
-                    }]
-                },
-                options: chartOptions
-            });
 
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -674,15 +622,7 @@ Technical customer support and operations professional with experience supportin
                     id: "intouch-tech",
                     details: ["Provided technical support and resolved customer inquiries over the phone.", "Maintained an overall 90% satisfaction rate and met the average amount of call handling.", "Managed multiple priorities and updated knowledge through self-guided learning."]
                 },
-                {
-                    date: "03/2016",
-                    endDate: "08/2018",
-                    title: "Store Manager Assistant",
-                    company: "ING Supermarket",
-                    location: "MB",
-                    id: "ing",
-                    details: ["Coordinated across departments to ensure smooth operations and a positive customer experience.", "Trained new employees and assisted the store manager in updating product inventory and pricing.", "Demonstrated strong communication, organization, and leadership skills to maintain efficiency and service quality."]
-                }
+                
             ];
 
             const groupedByYear = experiences.reduce((acc, exp) => {
@@ -791,11 +731,11 @@ Technical customer support and operations professional with experience supportin
         const softSkillsContainer = document.querySelector('#skills .flex-wrap.justify-center');
         if (softSkillsContainer) {
             const softSkills = [
-                { name: "Communication", color: "#E8F0FE" },
-                { name: "Problem Solving", color: "#FEEFC3" },
-                { name: "Outreach", color: "#E6FFFA" },
-                { name: "Compliance", color: "#F3E8FF" },
-                { name: "Relationship Building", color: "#FFEBF0" }
+                { name: "Communication", color: "" },
+                { name: "Problem Solving", color: "" },
+                { name: "Relationship Building", color: "" },
+                { name: "Compliance", color: "" },
+                { name: "Outreach", color: "" }
             ];
             
             softSkillsContainer.innerHTML = softSkills.map(s => 
