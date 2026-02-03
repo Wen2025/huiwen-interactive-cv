@@ -9,10 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals -->
-    <!-- Application Structure Plan: The CV is structured as a single-page, vertically scrolling application with a sticky top navigation bar for quick access to key sections. The design prioritizes a clear information hierarchy for recruiters, starting with a prominent summary, followed by a detailed experience timeline, skills visualizations, and education. The new timeline feature with expandable modals allows for a clean, scannable layout while keeping all detailed information available on demand. -->
-    <!-- Visualization & Content Choices: To make the 'Skills' section more digestible and impactful, Chart.js bar charts are used to visualize proficiency in technical skills and languages. Goal: Compare skill levels quickly. Viz: Horizontal Bar Chart. Interaction: Tooltips on hover. Justification: Visual charts are faster to parse than text lists and add a modern, data-driven feel. The 'Experience' section now uses a clean timeline and modal pop-ups. Goal: Organize extensive experience without cluttering the main page. Viz: HTML/CSS Timeline + Modal Dialogs. Interaction: Click to expand details. Justification: This approach makes the page scannable and user-friendly, allowing the user to dive into specific details only when interested. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -77,6 +73,52 @@
             background-color: #C8A07D;
             color: white;
         }
+
+        /* Summary 关键词动画 */
+        .word-cloud-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            min-height: 180px;
+            align-items: center;
+        }
+        .keyword {
+        display: inline-block;
+        font-weight: 700;
+        line-height: 1.1;
+        transition: transform 900ms ease, opacity 900ms ease, color 900ms ease;
+        will-change: transform, opacity;
+        }
+
+
+        /* Experience Hover 效果：弹跳感 */
+        #professional-timeline > div, .timeline-item button {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #professional-timeline > div:hover, .timeline-item button:hover {
+            transform: scale(1.03) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(200, 160, 125, 0.2);
+            z-index: 10;
+            background-color: white !important;
+        }
+
+        /* Soft Skills 药丸标签 */
+        .pill-badge{
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-weight: 500;
+        background: rgba(200,160,125,0.10); /* 奶油色系（跟你主题一致） */
+        color: #4A4A4A;
+        border: 1px solid rgba(200,160,125,0.25);
+        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+        }
+        .pill-badge:hover{
+        transform: translateY(-1px);
+        background: rgba(200,160,125,0.16);
+        border-color: rgba(200,160,125,0.45);
+        }
+
     </style>
 </head>
 <body class="antialiased">
@@ -91,7 +133,7 @@
                     <a href="#education" class="nav-link text-gray-600 hover:text-[#C8A07D] transition-colors duration-300">Education</a>
                 </div>
                 <button id="mobile-menu-button" class="md:hidden">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
             </nav>
             <div id="mobile-menu" class="hidden md:hidden mt-4 text-center">
@@ -107,12 +149,13 @@
         <section id="summary" class="py-20 md:py-32">
             <div class="container mx-auto px-6 text-center">
                 <h1 class="text-4xl md:text-6xl font-bold text-gray-800">Huiwen Ge</h1>
-                <p class="mt-4 text-lg text-gray-600">Ontario | geh201506@gmail.com</p>
+                <p class="mt-4 text-lg text-gray-600">ON, Canada</p>
                 <div class="mt-6">
                     <a href="https://www.linkedin.com/in/huiwen-ge" class="text-[#C8A07D] hover:underline">LinkedIn Profile</a>
                 </div>
                 <p class="mt-8 max-w-3xl mx-auto text-gray-700 leading-relaxed">
-Technical customer support and operations professional with experience supporting software users, researching solutions through user guides/knowledge bases, documenting resolutions in ticketing systems, and escalating issues when needed. Promoted based on strong performance in a fast-paced support environment. Also brings compliance-driven administrative experience with strong accuracy, confidentiality, and reporting habits. Fluent in English and Mandarin.                </p>
+Technical customer support and operations professional with experience supporting software users, researching solutions through user guides/knowledge bases, documenting resolutions in ticketing s[...]
+                </p>
             </div>
         </section>
 
@@ -120,16 +163,13 @@ Technical customer support and operations professional with experience supportin
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Experience</h2>
                 <div class="max-w-3xl mx-auto">
-                    <!-- Tab buttons -->
                     <div class="flex justify-center space-x-4 mb-8">
                         <button class="tab-button active px-6 py-2 rounded-full font-semibold transition-colors duration-200" data-tab-target="professional">Professional</button>
                         <button class="tab-button px-6 py-2 rounded-full font-semibold transition-colors duration-200" data-tab-target="volunteer">Volunteer</button>
                     </div>
 
-                    <!-- Tab content containers -->
                     <div id="professional-tab" class="tab-content space-y-8">
                         <h3 class="text-2xl font-bold text-gray-800 mb-6 mt-12">Professional Experience</h3>
-                        <!-- Updated timeline grid container -->
                         <div id="professional-timeline" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             <!-- Professional timeline will be dynamically generated here -->
                         </div>
@@ -139,25 +179,37 @@ Technical customer support and operations professional with experience supportin
                         <h3 class="text-2xl font-bold text-gray-800 mb-6 mt-12">Volunteer Experience</h3>
                         <div class="timeline-item">
                             <button data-job="kerrstreet" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                                <h3 class="text-xl font-bold text-gray-800">Volunteer</h3>
+                                <h3 class="text-xl font-bold text-gray-800">Family services| Child&Youth Programs| Food services</h3>
                                 <p class="text-md text-gray-600">Kerr Street Mission | March 2025 - Present</p>
                             </button>
                         </div>
                         <div class="timeline-item">
+                            <button data-job="thebentway" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                <h3 class="text-xl font-bold text-gray-800">Canoe Colour Bearer</h3>
+                                <p class="text-md text-gray-600">The Bentway | September 2025</p>
+                            </button>
+                        </div>
+                        <div class="timeline-item">
+                            <button data-job="oakvillegalleries" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+                                <h3 class="text-xl font-bold text-gray-800">Summer Camp Support</h3>
+                                <p class="text-md text-gray-600">oakville Galleries | June - Auguest 2025</p>
+                            </button>
+                        </div>
+                        <div class="timeline-item">
                             <button data-job="nbs" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                                <h3 class="text-xl font-bold text-gray-800">Volunteer</h3>
+                                <h3 class="text-xl font-bold text-gray-800">Donation Table</h3>
                                 <p class="text-md text-gray-600">NBS Block Party | May 2025</p>
                             </button>
                         </div>
                          <div class="timeline-item">
                             <button data-job="malte" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                                <h3 class="text-xl font-bold text-gray-800">Volunteer</h3>
+                                <h3 class="text-xl font-bold text-gray-800">Set-up & Check-In</h3>
                                 <p class="text-md text-gray-600">Malte Marten Toronto Concert | May 2025</p>
                             </button>
                         </div>
                          <div class="timeline-item">
                             <button data-job="zoo" class="w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                                <h3 class="text-xl font-bold text-gray-800">Zoo Buddy Volunteer</h3>
+                                <h3 class="text-xl font-bold text-gray-800">Zoo Buddy</h3>
                                 <p class="text-md text-gray-600">Winnipeg Zoo | July 2018</p>
                             </button>
                         </div>
@@ -166,7 +218,6 @@ Technical customer support and operations professional with experience supportin
             </div>
         </section>
 
-        <!-- Modals for professional details -->
         <div id="modal-terra" class="modal-overlay hidden">
             <div class="modal-content">
                 <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
@@ -182,6 +233,7 @@ Technical customer support and operations professional with experience supportin
                 </ul>
             </div>
         </div>
+
         <div id="modal-pearson" class="modal-overlay hidden">
             <div class="modal-content">
                 <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
@@ -342,7 +394,7 @@ Technical customer support and operations professional with experience supportin
                 </ul>
             </div>
         </div>
-        
+
         <div id="modal-ing" class="modal-overlay hidden">
             <div class="modal-content">
                 <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
@@ -358,57 +410,11 @@ Technical customer support and operations professional with experience supportin
                 </ul>
             </div>
         </div>
-        
-        <!-- Modals for volunteer details -->
-        <div id="modal-kerrstreet" class="modal-overlay hidden">
-            <div class="modal-content">
-                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-                <h3 class="text-2xl font-bold text-gray-800">Kerr Street Mission - Family Services</h3>
-                <p class="text-gray-600">Oakville, ON</p>
-                <p class="text-gray-500 mb-4">March 2025 - Present</p>
-                <ul class="list-disc list-inside text-gray-700 space-y-2">
-                    <li>Serve as an Income Tax Preparer and assist with Food Bank and Parcel Packing.</li>
-                    <li>Provide field trip supervision and serve as a parking lot attendant for the Summer Camp.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="modal-nbs" class="modal-overlay hidden">
-            <div class="modal-content">
-                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-                <h3 class="text-2xl font-bold text-gray-800">NBS Block Party - Donation/Waiver Desk</h3>
-                <p class="text-gray-500 mb-4">May 2025</p>
-            </div>
-        </div>
-
-        <div id="modal-malte" class="modal-overlay hidden">
-            <div class="modal-content">
-                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-                <h3 class="text-2xl font-bold text-gray-800">Malte Marten Toronto Concert - Setup & Check-In</h3>
-                <p class="text-gray-500 mb-4">May 2025</p>
-            </div>
-        </div>
-
-         <div id="modal-zoo" class="modal-overlay hidden">
-            <div class="modal-content">
-                <button class="absolute top-4 right-4 text-gray-500 hover:text-gray-800" data-close-modal>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-                <h3 class="text-2xl font-bold text-gray-800">Winnipeg Zoo - Zoo Buddy</h3>
-                <p class="text-gray-500 mb-4">July 2018</p>
-            </div>
-        </div>
 
         <section id="skills" class="py-20">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Skills</h2>
-                <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">This section provides a visual overview of my capabilities. Hover over the bars in the charts to see proficiency levels in my technical and language skills.</p>
+                <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">This section provides a visual overview of my capabilities. Hover over the bars in the charts to see proficiency level[...]</p>
                 <div class="grid md:grid-cols-2 gap-12 items-start">
                     <div>
                         <h3 class="text-xl font-bold text-center text-gray-800 mb-4">Technical Skills</h3>
@@ -428,9 +434,9 @@ Technical customer support and operations professional with experience supportin
                     <div class="flex flex-wrap justify-center gap-3">
                         <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Communication</span>
                         <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Problem Solving</span>
-                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Multitask</span>
-                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Adaptability & Teamwork</span>
-                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Leadership</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Relationship Building</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Compliance</span>
+                        <span class="bg-gray-200 text-gray-800 px-4 py-2 rounded-full">Outreach</span>
                     </div>
                 </div>
             </div>
@@ -554,20 +560,14 @@ Technical customer support and operations professional with experience supportin
                 options: chartOptions
             });
 
-            // Tab logic
             const tabButtons = document.querySelectorAll('.tab-button');
             const tabContents = document.querySelectorAll('.tab-content');
 
             tabButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    // Deactivate all buttons and hide all content
                     tabButtons.forEach(btn => btn.classList.remove('active'));
                     tabContents.forEach(content => content.classList.add('hidden'));
-
-                    // Activate the clicked button
                     button.classList.add('active');
-
-                    // Show the corresponding tab content
                     const targetId = button.dataset.tabTarget;
                     document.getElementById(`${targetId}-tab`).classList.remove('hidden');
                 });
@@ -591,7 +591,7 @@ Technical customer support and operations professional with experience supportin
                     company: "Pearson VUE",
                     location: "Oakville, ON",
                     id: "pearson",
-                    details: ["Securely deliver exams while ensuring a positive and professional testing experience for candidates.", "Check in examinees, verify IDs, explain procedures, proctor exams, resolve technical issues, and maintain a clean testing environment.", "Requires adherence to strict company policies and testing protocols."]
+                    details: ["Securely deliver exams while ensuring a positive and professional testing experience for candidates.", "Check in examinees, verify IDs, explain procedures, proctored exams, resolved technical issues, and maintained a clean testing environment.", "Requires adherence to strict company policies and testing protocols."]
                 },
                 {
                     date: "06/2025",
@@ -600,7 +600,7 @@ Technical customer support and operations professional with experience supportin
                     company: "Kognitive Sales Solutions",
                     location: "Oakville, ON",
                     id: "kognitive",
-                    details: ["Engage directly with customers in various locations or event settings to promote and sell client products and offer services.", "Deliver key brand messages, generate leads or sales, and meet performance targets while provide excellent customer service.", "Strong communication skills, a positive attitude, and the ability to work independently in a fast-paced environment."]
+                    details: ["Engaged directly with customers in various locations or event settings to promote and sell client products and offer services.", "Delivered key brand messages, generated leads or sales, and met performance targets while provide excellent customer service.", "Strong communication skills, a positive attitude, and the ability to work independently in a fast-paced environment."]
                 },
                 {
                     date: "11/2024",
@@ -685,7 +685,6 @@ Technical customer support and operations professional with experience supportin
                 }
             ];
 
-            // Group professional experiences by year
             const groupedByYear = experiences.reduce((acc, exp) => {
                 const year = exp.date.split('/')[1];
                 if (!acc[year]) {
@@ -702,8 +701,8 @@ Technical customer support and operations professional with experience supportin
                 const yearDiv = document.createElement('div');
                 yearDiv.className = "rounded-lg overflow-hidden";
                 const yearButton = document.createElement('button');
-                yearButton.className = "flex items-center justify-between w-full p-4 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-lg transition-colors duration-200";
-                yearButton.innerHTML = `<span class="text-lg font-semibold text-gray-700">${year}</span><svg class="w-5 h-5 text-gray-500 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>`;
+                yearButton.className = "flex items-center justify-between w-full p-4 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300 rounded-lg transition-colors";
+                yearButton.innerHTML = `<span class=\"text-lg font-semibold text-gray-700\">${year}</span><svg class=\"w-5 h-5 text-gray-500 transform transition-transform duration-200\" fill=\"none\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 9l-7 7-7-7\"></path></svg>`;
                 
                 const contentDiv = document.createElement('div');
                 contentDiv.className = "pl-4 pt-4 pb-2 space-y-4 hidden";
@@ -720,8 +719,8 @@ Technical customer support and operations professional with experience supportin
                     jobButton.className = "w-full text-left p-4 rounded-lg hover:bg-gray-100 transition-colors duration-200";
                     jobButton.dataset.job = job.id;
                     jobButton.innerHTML = `
-                        <h3 class="text-xl font-bold text-gray-800">${job.title}</h3>
-                        <p class="text-md text-gray-600">${job.company} | ${job.date} - ${job.endDate}</p>
+                        <h3 class=\"text-xl font-bold text-gray-800\">${job.title}</h3>
+                        <p class=\"text-md text-gray-600\">${job.company} | ${job.date} - ${job.endDate}</p>
                     `;
                     contentDiv.appendChild(jobButton);
                 });
@@ -731,7 +730,6 @@ Technical customer support and operations professional with experience supportin
                 timelineContainer.appendChild(yearDiv);
             });
             
-            // Modal logic
             const experienceButtons = document.querySelectorAll('[data-job]');
             const modals = document.querySelectorAll('.modal-overlay');
 
@@ -755,5 +753,58 @@ Technical customer support and operations professional with experience supportin
             });
         });
     </script>
+
+    <!-- BEGIN: visual-testing additions (summary + soft skills only; do NOT remove chart canvas) -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- 1. Summary 关键词云替换与动画 ---
+        const summaryText = document.querySelector('#summary p.max-w-3xl') || document.querySelector('#summary p');
+        const keywords = ["Technical", "Solution Research", "Support", "Knowledge Base", "Accuracy", "Confidentiality", "English", "Mandarin"];
+        const colors = ["#4A4A4A", "#C8A07D", "#8E8E8E", "#A67C52", "#6D6D6D"];
+        
+        if (summaryText) {
+            let cloudHtml = '<div class="word-cloud-container">';
+            keywords.forEach(word => {
+                cloudHtml += `<span class="keyword" style="color: ${colors[0]}; font-size: 24px;">${word}</span>`;
+            });
+            cloudHtml += '</div>';
+            summaryText.innerHTML = cloudHtml;
+        }
+
+        const wordElements = document.querySelectorAll('.keyword');
+        if (wordElements.length) {
+            // clear previous if exists
+            if (window.__wordCloudInterval) clearInterval(window.__wordCloudInterval);
+            window.__wordCloudInterval = setInterval(() => {
+                wordElements.forEach(el => {
+                    const randomSize = Math.floor(Math.random() * (48 - 22 + 1)) + 22;
+                    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    const randomOpacity = (Math.random() * (1 - 0.6) + 0.6).toFixed(2);
+                    el.style.fontSize = `${randomSize}px`;
+                    el.style.color = randomColor;
+                    el.style.opacity = randomOpacity;
+                });
+            }, 3000);
+        }
+
+        // --- 2. Soft Skills (低饱和度药丸标签) ---
+        const softSkillsContainer = document.querySelector('#skills .flex-wrap.justify-center');
+        if (softSkillsContainer) {
+            const softSkills = [
+                { name: "Communication", color: "#E8F0FE" },
+                { name: "Problem Solving", color: "#FEEFC3" },
+                { name: "Multitask", color: "#E6FFFA" },
+                { name: "Adaptability", color: "#F3E8FF" },
+                { name: "Leadership", color: "#FFEBF0" }
+            ];
+            
+            softSkillsContainer.innerHTML = softSkills.map(s => 
+                `<span class="pill-badge" style="background-color: ${s.color}; color: #4A4A4A;">${s.name}</span>`
+            ).join('');
+        }
+
+    });
+    </script>
+    <!-- END: visual-testing additions -->
 </body>
 </html>
