@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio – Huiwen Ge</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #f9f9f7;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(249,249,247,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e5e3dc;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      z-index: 100;
+    }
+    nav .name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1a1a;
+      text-decoration: none;
+    }
+    nav .links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+    nav .links a {
+      font-size: 14px;
+      color: #555;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    nav .links a:hover, nav .links a.active {
+      color: #1a1a1a;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 3.5rem 2rem 2rem;
+    }
+    .hero h1 {
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .hero p {
+      font-size: 16px;
+      color: #444;
+      max-width: 520px;
+    }
+
+    /* ── FILTER TABS ── */
+    .filters {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem 1.5rem;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-size: 13px;
+      padding: 5px 14px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background: transparent;
+      color: #555;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover {
+      border-color: #999;
+      color: #1a1a1a;
+    }
+    .filter-btn.active {
+      background: #1a1a1a;
+      color: #fff;
+      border-color: #1a1a1a;
+    }
+
+    /* ── GRID ── */
+    .grid {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e3dc;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+    }
+    .card-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      background: #f0ede6;
+    }
+    .card-img.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #aaa;
+    }
+    .card-body {
+      padding: 1rem 1.25rem 1.25rem;
+    }
+    .card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: #f0ede6;
+      color: #666;
+      letter-spacing: 0.02em;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #1a1a1a;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 16px 16px 0 0;
+      background: #f0ede6;
+    }
+    .modal-img.placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #aaa;
+    }
+    .modal-body {
+      padding: 1.5rem 1.75rem 2rem;
+    }
+    .modal-close {
+      float: right;
+      background: #f0ede6;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #555;
+      line-height: 32px;
+      text-align: center;
+      margin: -4px -4px 12px 12px;
+    }
+    .modal-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #1a1a1a;
+    }
+    .modal-desc {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+    .modal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1a1a;
+      text-decoration: none;
+      border: 1px solid #1a1a1a;
+      padding: 7px 16px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .modal-link:hover {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 13px;
+      color: #aaa;
+      border-top: 1px solid #e5e3dc;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="name" href="index.html">Huiwen Ge</a>
+  <ul class="links">
+    <li><a href="index.html#summary">CV</a></li>
+    <li><a href="portfolio.html" class="active">Portfolio</a></li>
+    <li><a href="mailto:geh201506@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <h1>Portfolio</h1>
+  <p>A selection of design work spanning brand identity, print, digital, and web — made with Canva and HTML/CSS.</p>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filter('all', this)">All</button>
+  <button class="filter-btn" onclick="filter('brand', this)">Brand</button>
+  <button class="filter-btn" onclick="filter('print', this)">Print</button>
+  <button class="filter-btn" onclick="filter('digital', this)">Digital</button>
+  <button class="filter-btn" onclick="filter('web', this)">Web</button>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <div class="modal-img placeholder" id="modal-img">[ Image ]</div>
+    <div class="modal-body">
+      <button class="modal-close" onclick="closeModalDirect()">×</button>
+      <div class="modal-tags" id="modal-tags"></div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-desc" id="modal-desc"></div>
+      <div id="modal-link-container"></div>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 Huiwen Ge · Mississauga, ON</footer>
+
+<script>
+  const projects = [
+    {
+      id: 1,
+      title: "TAGZ — Brand Identity",
+      tags: ["brand", "brand"],
+      tagLabels: ["Brand Identity", "Canva"],
+      desc: "Logo designed for a social tagging app called TAGZ. The mark uses a bold 3D hashtag with an offset shadow to convey energy and digital culture. Clean wordmark in black provides balance.",
+      story: "The brief was to design something instantly recognizable for a social app. I chose the hashtag as the core mark — it's universally understood in the context of social media. The 3D effect adds depth without overcomplicating the design.",
+      img: "assets/tagz-logo.png",
+      link: null
+    },
+    {
+      id: 2,
+      title: "Relax, Grow & Sustain — Event Poster",
+      tags: ["print"],
+      tagLabels: ["Print Design", "Canva"],
+      desc: "Promotional poster for the Sheridan Gardening Club's eco-friendly gardening event. Earth-toned palette with a nature photography collage and bold call-to-action typography.",
+      story: "The goal was to attract students and communicate the club's relaxed, sustainable ethos. I used dark olive green as the base — a color that feels both earthy and contemporary — and let the ladybug macro photography do the visual storytelling.",
+      img: "assets/poster-relax-grow.png",
+      link: null
+    },
+    {
+      id: 3,
+      title: "Gardening Club at Sheridan — Recruitment Poster",
+      tags: ["print"],
+      tagLabels: ["Print Design", "Canva"],
+      desc: "Second poster variant for the Gardening Club featuring a film strip motif, QR code, and bold typographic layout on a mint green background.",
+      story: "This version targeted a different audience — students passing by on campus. The film strip adds a retro, tactile feel while the QR code makes it easy to join instantly. The large bold type ensures it reads from a distance.",
+      img: "assets/poster-garden-club.png",
+      link: null
+    },
+    {
+      id: 4,
+      title: "Sip Tokens — Pitch Deck",
+      tags: ["digital"],
+      tagLabels: ["Presentation Design", "Canva"],
+      desc: "20+ slide startup pitch deck for Sip Tokens, a Web3 rewards platform for Starbucks secret menu enthusiasts. Cohesive coffee-themed visual system throughout.",
+      story: "Designed for a school hackathon. The challenge was making a blockchain concept feel warm and approachable. I used hand-script typography, coffee bean illustrations, and a warm neutral palette to keep it grounded in the café experience rather than crypto aesthetics.",
+      img: "assets/sip-tokens.png",
+      link: null
+    },
+    {
+      id: 5,
+      title: "SecretSips — Web UI Design",
+      tags: ["web", "digital"],
+      tagLabels: ["UI/UX Design", "Web"],
+      desc: "Full web application UI for SecretSips — a community platform for sharing Starbucks secret recipes and earning Aptos crypto rewards. Designed multiple screens including landing page, recipe feed, leaderboard, user profile, and recipe submission form.",
+      story: "I designed this alongside building the app prototype. The palette is grounded in Starbucks green but lightened to feel fresh and community-oriented. The leaderboard and APT reward displays were designed to motivate participation without feeling like a game.",
+      img: "assets/secretsips.png",
+      link: null
+    },
+    {
+      id: 6,
+      title: "Interactive CV — Web Design & Development",
+      tags: ["web"],
+      tagLabels: ["Web Design", "HTML/CSS"],
+      desc: "Designed and coded a personal interactive CV website from scratch using HTML and CSS. Features tab navigation between Professional and Volunteer experience, responsive layout, and clean typographic hierarchy.",
+      story: "I wanted my CV to be more than a PDF. By building it as a webpage I could show both design sensibility and technical ability at once. The toggle between Professional and Volunteer roles was designed to keep the page clean while showing the full picture.",
+      img: null,
+      link: "https://wen2025.github.io/huiwen-interactive-cv/"
+    }
+  ];
+
+  let activeFilter = 'all';
+
+  function renderGrid(filter) {
+    const grid = document.getElementById('grid');
+    grid.innerHTML = '';
+    const filtered = filter === 'all' ? projects : projects.filter(p => p.tags.includes(filter));
+    filtered.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.onclick = () => openModal(p);
+      card.innerHTML = `
+        ${p.img
+          ? `<img class="card-img" src="${p.img}" alt="${p.title}" onerror="this.outerHTML='<div class=\\'card-img placeholder\\'>[ Add image: ${p.img} ]</div>'">`
+          : `<div class="card-img placeholder">[ Add screenshot ]</div>`
+        }
+        <div class="card-body">
+          <div class="card-tags">${p.tagLabels.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+          <div class="card-title">${p.title}</div>
+          <div class="card-desc">${p.desc}</div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function filter(type, btn) {
+    activeFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderGrid(type);
+  }
+
+  function openModal(p) {
+    const overlay = document.getElementById('modal');
+    document.getElementById('modal-title').textContent = p.title;
+    document.getElementById('modal-desc').innerHTML = `<p style="margin-bottom:10px">${p.desc}</p><p><strong>Design thinking:</strong> ${p.story}</p>`;
+    document.getElementById('modal-tags').innerHTML = p.tagLabels.map(t => `<span class="tag">${t}</span>`).join('');
+    const imgEl = document.getElementById('modal-img');
+    if (p.img) {
+      imgEl.outerHTML = `<img class="modal-img" id="modal-img" src="${p.img}" alt="${p.title}" onerror="this.outerHTML='<div class=\\'modal-img placeholder\\' id=\\'modal-img\\'>[ Add image: ${p.img} ]</div>'">`;
+    } else {
+      imgEl.outerHTML = `<div class="modal-img placeholder" id="modal-img">[ Add screenshot ]</div>`;
+    }
+    const linkContainer = document.getElementById('modal-link-container');
+    linkContainer.innerHTML = p.link ? `<a class="modal-link" href="${p.link}" target="_blank">View live ↗</a>` : '';
+    overlay.classList.add('open');
+  }
+
+  function closeModal(e) {
+    if (e.target === document.getElementById('modal')) {
+      document.getElementById('modal').classList.remove('open');
+    }
+  }
+
+  function closeModalDirect() {
+    document.getElementById('modal').classList.remove('open');
+  }
+
+  renderGrid('all');
+</script>
+</body>
+</html>
