@@ -313,7 +313,7 @@
       tagLabels: ["Brand Identity", "Canva"],
       desc: "Logo designed for a social tagging app called TAGZ. The mark uses a bold 3D hashtag with an offset shadow to convey energy and digital culture. Clean wordmark in black provides balance.",
       story: "The brief was to design something instantly recognizable for a social app. I chose the hashtag as the core mark — it's universally understood in the context of social media. The 3D effect adds depth without overcomplicating the design.",
-      img: "assets/tagz-logo.png",
+      img: "assets/tagz-logo.png", alt: "TAGZ logo featuring a bold orange 3D hashtag symbol with the wordmark below",
       link: null
     },
     {
@@ -323,7 +323,7 @@
       tagLabels: ["Print Design", "Canva"],
       desc: "Promotional poster for the Sheridan Gardening Club's eco-friendly gardening event. Earth-toned palette with a nature photography collage and bold call-to-action typography.",
       story: "The goal was to attract students and communicate the club's relaxed, sustainable ethos. I used dark olive green as the base — a color that feels both earthy and contemporary — and let the ladybug macro photography do the visual storytelling.",
-      img: "assets/poster-relax-grow.png",
+      img: "assets/poster-relax-grow.png", alt: "Dark olive green event poster for Sheridan Gardening Club featuring ladybug macro photography collage",
       link: null
     },
     {
@@ -333,7 +333,7 @@
       tagLabels: ["Print Design", "Canva"],
       desc: "Recruitment poster for the Sheridan Gardening Club. A film strip theme was chosen to reflect Sheridan's performing arts culture. The QR code makes it easy to join instantly, and the large bold type ensures it reads from a distance.",
       story: "The film strip theme was a deliberate nod to Sheridan's performing arts culture, creating a visual connection between the gardening club and the broader creative community on campus. Bold typography and a mint green palette keep it fresh and easy to read at a glance.",
-      img: "assets/poster-garden-club.png",
+      img: "assets/poster-garden-club.png", alt: "Mint green recruitment poster for Gardening Club at Sheridan with film strip motif and QR code",
       link: null
     },
     {
@@ -343,7 +343,7 @@
       tagLabels: ["Presentation Design", "Canva"],
       desc: "20+ slide startup pitch deck for Sip Tokens, a Web3 rewards platform for Starbucks secret menu enthusiasts. Cohesive coffee-themed visual system throughout.",
       story: "Designed for a school hackathon. The challenge was making a blockchain concept feel warm and approachable. I used hand-script typography, coffee bean illustrations, and a warm neutral palette to keep it grounded in the café experience rather than crypto aesthetics.",
-      img: "assets/sip-tokens.png",
+      img: "assets/sip-tokens.png", alt: "Sip Tokens pitch deck cover slide with hand-script typography and illustrated coffee cup",
       link: null
     },
     {
@@ -353,7 +353,7 @@
       tagLabels: ["UI/UX Design", "Web"],
       desc: "Full web application UI for SecretSips — a community platform for sharing Starbucks secret recipes and earning Aptos crypto rewards. Designed multiple screens including landing page, recipe feed, leaderboard, user profile, and recipe submission form.",
       story: "I designed this alongside building the app prototype. The palette is grounded in Starbucks green but lightened to feel fresh and community-oriented. The leaderboard and APT reward displays were designed to motivate participation without feeling like a game.",
-      img: "assets/secretsips.png",
+      img: "assets/secretsips.png", alt: "SecretSips web app landing page showing Share secrets Earn rewards headline with iced coffee photo",
       link: null
     },
     {
@@ -363,7 +363,7 @@
       tagLabels: ["Web Design", "HTML/CSS"],
       desc: "Designed and built a personal interactive CV website using HTML, CSS, and AI-assisted coding. Features tab navigation, responsive layout, and clean typographic hierarchy.",
       story: "I wanted my CV to be more than a PDF. By building it as a webpage I could show both design sensibility and technical ability at once. The toggle between Professional and Volunteer roles was designed to keep the page clean while showing the full picture.",
-      img: "assets/interactive-cv.png",
+      img: "assets/interactive-cv.png", alt: "Huiwen Ge interactive CV website showing animated keyword cloud and navigation menu",
       link: "https://wen2025.github.io/huiwen-interactive-cv/"
     }
   ];
@@ -380,7 +380,7 @@
       card.onclick = () => openModal(p);
       card.innerHTML = `
         ${p.img
-          ? `<img class="card-img" src="${p.img}" alt="${p.title}" onerror="this.outerHTML='<div class=\\'card-img placeholder\\'>[ Add image: ${p.img} ]</div>'">`
+          ? `<img class="card-img" src="${p.img}" alt="${p.alt || p.title}" onerror="this.outerHTML='<div class=\\'card-img placeholder\\'>[ Add image: ${p.img} ]</div>'">`
           : `<div class="card-img placeholder">[ Add screenshot ]</div>`
         }
         <div class="card-body">
@@ -407,7 +407,7 @@
     document.getElementById('modal-tags').innerHTML = p.tagLabels.map(t => `<span class="tag">${t}</span>`).join('');
     const imgEl = document.getElementById('modal-img');
     if (p.img) {
-      imgEl.outerHTML = `<img class="modal-img" id="modal-img" src="${p.img}" alt="${p.title}" onerror="this.outerHTML='<div class=\\'modal-img placeholder\\' id=\\'modal-img\\'>[ Add image: ${p.img} ]</div>'">`;
+      imgEl.outerHTML = `<img class="modal-img" id="modal-img" src="${p.img}" alt="${p.alt || p.title}" onerror="this.outerHTML='<div class=\\'modal-img placeholder\\' id=\\'modal-img\\'>[ Add image: ${p.img} ]</div>'">`;
     } else {
       imgEl.outerHTML = `<div class="modal-img placeholder" id="modal-img">[ Add screenshot ]</div>`;
     }
