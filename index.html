@@ -217,7 +217,7 @@
                 const yearDiv = document.createElement('div');
                 yearDiv.className = "rounded-lg overflow-hidden";
                 const yearBtn = document.createElement('button');
-                yearBtn.className = "flex items-center justify-between w-full p-4 bg-[#1a1a1a] hover:bg-[#222] rounded-lg transition-colors";
+                yearBtn.className = "flex items-center justify-between w-full p-4 bg-[#161616] hover:bg-[#1e1e1e] border border-[#2a2a2a] rounded-lg transition-colors";
                 yearBtn.innerHTML = `<span class="text-lg font-semibold text-white">${year}</span><svg class="w-5 h-5 text-gray-400 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>`;
                 const contentDiv = document.createElement('div');
                 contentDiv.className = "pl-4 pt-4 pb-2 space-y-4 hidden";
@@ -228,7 +228,7 @@
                 });
                 grouped[year].forEach(job => {
                     const jobBtn = document.createElement('button');
-                    jobBtn.className = "w-full text-left p-4 rounded-lg hover:bg-[#1a1a1a] transition-colors duration-200";
+                    jobBtn.className = "w-full text-left p-4 rounded-lg border border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200";
                     jobBtn.dataset.job = job.id;
                     jobBtn.innerHTML = `<h3 class="text-xl font-bold text-white">${job.title}</h3><p class="text-md text-gray-400">${job.company} | ${job.date} - ${job.endDate}</p>`;
                     contentDiv.appendChild(jobBtn);
@@ -268,7 +268,7 @@
                 el.style.fontSize = `${Math.floor(Math.random() * 27) + 22}px`;
                 el.style.color = colors[Math.floor(Math.random() * colors.length)];
                 el.style.opacity = (Math.random() * 0.4 + 0.6).toFixed(2);
-                animateWord(el, 2500);
+                animateWord(el, 4000);
             }, delay);
         }
 
