@@ -243,7 +243,7 @@
     function animateSpotlight() {
       if (!animating) return;
       sctx.clearRect(0, 0, W, H);
-      sctx.fillStyle = 'rgba(8,8,8,0.55)';
+      sctx.fillStyle = 'rgba(8,8,8,0.3)';
       sctx.fillRect(0, 0, W, H);
       const r = Math.max(W, H) * 0.3;
       const grad = sctx.createRadialGradient(spotX, spotY, 0, spotX, spotY, r);
