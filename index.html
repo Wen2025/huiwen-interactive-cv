@@ -20,8 +20,7 @@
         #professional-timeline > div:hover, .timeline-item button:hover { transform: scale(1.03) translateY(-5px); box-shadow: 0 15px 30px rgba(200,160,125,0.15); z-index: 10; background-color: #111 !important; }
         .pill-badge { padding: 8px 14px; border-radius: 999px; font-weight: 500; background: rgba(200,160,125,0.08); color: #e0e0e0; border: 1px solid rgba(200,160,125,0.25); transition: transform 180ms ease, background 180ms ease, border-color 180ms ease; }
         .pill-badge:hover { transform: translateY(-1px); background: rgba(200,160,125,0.16); border-color: rgba(200,160,125,0.45); }
-        .word-cloud-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; height: 180px; align-items: center; overflow: hidden; }
-        .keyword { display: inline-block; font-weight: 700; line-height: 1.1; transition: font-size 900ms ease, opacity 900ms ease, color 900ms ease; will-change: font-size, opacity, color; position: relative; }
+.word-cloud-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 25px; min-height: 220px; align-items: center; overflow: visible; }        .keyword { display: inline-block; font-weight: 700; line-height: 1.1; transition: font-size 900ms ease, opacity 900ms ease, color 900ms ease; will-change: font-size, opacity, color; position: relative; }
     </style>
 </head>
 <body class="antialiased">
@@ -265,7 +264,6 @@
             }
             function animateWord(el, delay) {
             setTimeout(() => {
-                el.style.fontSize = `${Math.floor(Math.random() * 27) + 22}px`;
                 el.style.color = colors[Math.floor(Math.random() * colors.length)];
                 el.style.opacity = (Math.random() * 0.4 + 0.6).toFixed(2);
                 animateWord(el, 4000);
