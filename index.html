@@ -78,12 +78,12 @@
                     </div>
                     <div id="volunteer-tab" class="tab-content space-y-8 hidden">
                         <h3 class="text-2xl font-bold text-white mb-6 mt-12">Volunteer Experience</h3>
-                        <div class="timeline-item"><button data-job="kerrstreet" class="w-full text-left p-4 rounded-lg hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Family services | Child & Youth Programs | Food services</h3><p class="text-md text-gray-400">Kerr Street Mission | March 2025 - Present</p></button></div>
-                        <div class="timeline-item"><button data-job="thebentway" class="w-full text-left p-4 rounded-lg hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Canoe Colour Bearer</h3><p class="text-md text-gray-400">The Bentway | September 2025</p></button></div>
-                        <div class="timeline-item"><button data-job="oakvillegalleries" class="w-full text-left p-4 rounded-lg hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Summer Camp Support</h3><p class="text-md text-gray-400">Oakville Galleries | June - August 2025</p></button></div>
-                        <div class="timeline-item"><button data-job="nbs" class="w-full text-left p-4 rounded-lg hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Donation Table</h3><p class="text-md text-gray-400">NBS Block Party | May 2025</p></button></div>
-                        <div class="timeline-item"><button data-job="malte" class="w-full text-left p-4 rounded-lg hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Set-up & Check-In</h3><p class="text-md text-gray-400">Malte Marten Toronto Concert | May 2025</p></button></div>
-                        <div class="timeline-item"><button data-job="zoo" class="w-full text-left p-4 rounded-lg hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Zoo Buddy</h3><p class="text-md text-gray-400">Winnipeg Zoo | July 2018</p></button></div>
+                        <div class="timeline-item"><button data-job="kerrstreet" class="w-full text-left p-4 rounded-lg border border-[#C8A07D]/50 hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Family services | Child & Youth Programs | Food services</h3><p class="text-md text-gray-400">Kerr Street Mission | March 2025 - Present</p></button></div>
+                        <div class="timeline-item"><button data-job="thebentway" class="w-full text-left p-4 rounded-lg border border-[#C8A07D]/50 hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Canoe Colour Bearer</h3><p class="text-md text-gray-400">The Bentway | September 2025</p></button></div>
+                        <div class="timeline-item"><button data-job="oakvillegalleries" class="w-full text-left p-4 rounded-lg border border-[#C8A07D]/50 hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Summer Camp Support</h3><p class="text-md text-gray-400">Oakville Galleries | June - August 2025</p></button></div>
+                        <div class="timeline-item"><button data-job="nbs" class="w-full text-left p-4 rounded-lg border border-[#C8A07D]/50 hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Donation Table</h3><p class="text-md text-gray-400">NBS Block Party | May 2025</p></button></div>
+                        <div class="timeline-item"><button data-job="malte" class="w-full text-left p-4 rounded-lg border border-[#C8A07D]/50 hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Set-up & Check-In</h3><p class="text-md text-gray-400">Malte Marten Toronto Concert | May 2025</p></button></div>
+                        <div class="timeline-item"><button data-job="zoo" class="w-full text-left p-4 rounded-lg border border-[#C8A07D]/50 hover:bg-[#1a1a1a] hover:border-[#C8A07D] transition-colors duration-200"><h3 class="text-xl font-bold text-white">Zoo Buddy</h3><p class="text-md text-gray-400">Winnipeg Zoo | July 2018</p></button></div>
                     </div>
                 </div>
             </div>
@@ -227,7 +227,7 @@
                 });
                 grouped[year].forEach(job => {
                     const jobBtn = document.createElement('button');
-                    jobBtn.className = "w-full text-left p-4 rounded-lg border border-[#2a2a2a] hover:bg-[#1a1a1a] hover:border-[#C8A07D] hover:border-[#C8A07D] transition-colors duration-200";
+                    jobBtn.className = "w-full text-left p-4 rounded-lg border border-[#2a2a2a] border border-[#C8A07D]/50 hover:bg-[#1a1a1a] hover:border-[#C8A07D] hover:border-[#C8A07D] transition-colors duration-200";
                     jobBtn.dataset.job = job.id;
                     jobBtn.innerHTML = `<h3 class="text-xl font-bold text-white">${job.title}</h3><p class="text-md text-gray-400">${job.company} | ${job.date} - ${job.endDate}</p>`;
                     contentDiv.appendChild(jobBtn);
@@ -270,7 +270,7 @@ if (words.length) {
             el.style.color = colors[Math.floor(Math.random() * colors.length)];
             el.style.opacity = (Math.random() * 0.4 + 0.6).toFixed(2);
         });
-    }, 3000);
+    }, 5000);
 }
         });
     </script>
