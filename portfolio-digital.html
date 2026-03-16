@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital — Huiwen Ge</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --neon: #bf00ff;
+      --neon-rgb: 191,0,255;
+      --dark: #080808;
+    }
+    html, body { background: var(--dark); color: #fff; font-family: 'Share Tech Mono', monospace; min-height: 100%; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0;
+      background: rgba(8,8,8,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(var(--neon-rgb), 0.15);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 56px; z-index: 100;
+    }
+    .nav-back {
+      font-size: 14px; font-weight: 700; color: #fff;
+      text-decoration: none; letter-spacing: 0.08em;
+      transition: color 0.3s;
+    }
+    .nav-back:hover { color: var(--neon); }
+    .nav-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px; letter-spacing: 0.3em;
+      color: var(--neon);
+      text-shadow: 0 0 8px var(--neon), 0 0 20px var(--neon);
+    }
+    .nav-name { font-size: 12px; color: #444; letter-spacing: 0.1em; }
+
+    /* HERO */
+    .hero {
+      padding: 3rem 2rem 1.5rem;
+      max-width: 900px; margin: 0 auto;
+      border-bottom: 1px solid rgba(var(--neon-rgb), 0.1);
+    }
+    .hero-label { font-size: 11px; letter-spacing: 0.3em; color: #888; text-transform: uppercase; margin-bottom: 8px; }
+    .hero-count { font-size: 13px; color: #888; }
+
+    /* GRID */
+    .grid {
+      max-width: 900px; margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* CARD */
+    .card {
+      background: #0f0f0f;
+      border: 1px solid rgba(var(--neon-rgb), 0.2);
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: var(--neon);
+      box-shadow: 0 0 20px rgba(var(--neon-rgb), 0.15), 0 0 40px rgba(var(--neon-rgb), 0.05);
+    }
+    .card-img {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+      background: #111;
+    }
+    .card-img.placeholder {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; color: #333;
+    }
+    .card-body { padding: 1rem 1.25rem 1.25rem; }
+    .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+    .tag {
+      font-size: 11px; padding: 3px 10px;
+      border-radius: 4px;
+      background: rgba(var(--neon-rgb), 0.08);
+      color: var(--neon);
+      border: 1px solid rgba(var(--neon-rgb), 0.2);
+      letter-spacing: 0.04em;
+    }
+    .card-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.3; }
+    .card-desc { font-size: 12px; color: #aaa; line-height: 1.7; }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #0f0f0f;
+      border: 1px solid rgba(var(--neon-rgb), 0.3);
+      border-radius: 16px;
+      box-shadow: 0 0 40px rgba(var(--neon-rgb), 0.1);
+      max-width: 680px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+    }
+    .modal-img {
+      width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+      border-radius: 16px 16px 0 0;
+      background: #111; display: block;
+    }
+    .modal-img.placeholder {
+      height: 200px; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 13px; color: #333;
+    }
+    .modal-body { padding: 1.5rem 1.75rem 2rem; }
+    .modal-close {
+      float: right; background: rgba(var(--neon-rgb), 0.1);
+      border: 1px solid rgba(var(--neon-rgb), 0.2);
+      border-radius: 50%; width: 32px; height: 32px;
+      font-size: 18px; cursor: pointer;
+      color: var(--neon); line-height: 32px; text-align: center;
+      margin: -4px -4px 12px 12px;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: rgba(var(--neon-rgb), 0.2); }
+    .modal-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .modal-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .modal-desc { font-size: 14px; color: #bbb; line-height: 1.8; margin-bottom: 16px; }
+    .modal-desc strong { color: var(--neon); }
+    .modal-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700;
+      color: var(--neon); text-decoration: none;
+      border: 1px solid var(--neon);
+      padding: 8px 18px; border-radius: 8px;
+      transition: background 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .modal-link:hover {
+      background: rgba(var(--neon-rgb), 0.1);
+      box-shadow: 0 0 12px rgba(var(--neon-rgb), 0.3);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem;
+      font-size: 12px; color: #777;
+      border-top: 1px solid rgba(var(--neon-rgb), 0.08);
+      margin-top: 2rem;
+    }
+    footer a { color: #888; text-decoration: none; transition: color 0.3s; }
+    footer a:hover { color: var(--neon); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a class="nav-back" href="portfolio-home.html">← Back</a>
+    <div class="nav-title">Digital</div>
+    <div class="nav-name">Huiwen Ge</div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-label">Portfolio — Digital Design</div>
+    <div class="hero-count">2 projects</div>
+  </div>
+
+  <div class="grid">
+    
+    <div class="card" onclick="openModal({&quot;title&quot;:&quot;Sip Tokens — Pitch Deck&quot;,&quot;tags&quot;:[&quot;Presentation Design&quot;,&quot;Canva&quot;],&quot;desc&quot;:&quot;20+ slide startup pitch deck for a Web3 rewards platform for Starbucks secret menu enthusiasts.&quot;,&quot;story&quot;:&quot;The challenge was making a blockchain concept feel warm and approachable. I used hand-script typography and a warm neutral palette to keep it grounded in café experience.&quot;,&quot;img&quot;:&quot;assets/sip-tokens.png&quot;,&quot;alt&quot;:&quot;Sip Tokens pitch deck cover slide with hand-script typography and illustrated coffee cup&quot;,&quot;link&quot;:null})">
+      <img class="card-img" src="assets/sip-tokens.png" alt="Sip Tokens pitch deck cover slide with hand-script typography and illustrated coffee cup" onerror="this.outerHTML='<div class=\'card-img placeholder\'>[ image ]</div>'">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag">Presentation Design</span><span class="tag">Canva</span></div>
+        <div class="card-title">Sip Tokens — Pitch Deck</div>
+        <div class="card-desc">20+ slide startup pitch deck for a Web3 rewards platform for Starbucks secret menu enthusiasts.</div>
+      </div>
+    </div>
+  
+    <div class="card" onclick="openModal({&quot;title&quot;:&quot;SecretSips — Web UI Design&quot;,&quot;tags&quot;:[&quot;UI/UX Design&quot;,&quot;Web&quot;],&quot;desc&quot;:&quot;Full web app UI for a community platform sharing Starbucks secret recipes and earning crypto rewards.&quot;,&quot;story&quot;:&quot;The palette is grounded in Starbucks green but lightened to feel fresh and community-oriented. Leaderboard and reward displays motivate participation without feeling like a game.&quot;,&quot;img&quot;:&quot;assets/secretsips.png&quot;,&quot;alt&quot;:&quot;SecretSips web app landing page showing Share secrets Earn rewards headline&quot;,&quot;link&quot;:null})">
+      <img class="card-img" src="assets/secretsips.png" alt="SecretSips web app landing page showing Share secrets Earn rewards headline" onerror="this.outerHTML='<div class=\'card-img placeholder\'>[ image ]</div>'">
+      <div class="card-body">
+        <div class="card-tags"><span class="tag">UI/UX Design</span><span class="tag">Web</span></div>
+        <div class="card-title">SecretSips — Web UI Design</div>
+        <div class="card-desc">Full web app UI for a community platform sharing Starbucks secret recipes and earning crypto rewards.</div>
+      </div>
+    </div>
+  
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal">
+      <div id="modal-img-container"></div>
+      <div class="modal-body">
+        <button class="modal-close" onclick="closeModalDirect()">×</button>
+        <div class="modal-tags" id="modal-tags"></div>
+        <div class="modal-title" id="modal-title"></div>
+        <div class="modal-desc" id="modal-desc"></div>
+        <div id="modal-link-container"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="portfolio-home.html">← Portfolio Home</a>
+    &nbsp;·&nbsp;
+    <a href="index.html">CV</a>
+    &nbsp;·&nbsp;
+    © 2025–2026 Huiwen Ge
+  </footer>
+
+  <script>
+    function openModal(p) {
+      document.getElementById('modal-title').textContent = p.title;
+      document.getElementById('modal-desc').innerHTML =
+        '<p style="margin-bottom:10px">' + p.desc + '</p>' +
+        '<p><strong>Design thinking:</strong> ' + p.story + '</p>';
+      document.getElementById('modal-tags').innerHTML =
+        p.tags.map(t => '<span class="tag">' + t + '</span>').join('');
+      const imgContainer = document.getElementById('modal-img-container');
+      if (p.img) {
+        imgContainer.innerHTML = '<img class="modal-img" src="' + p.img + '" alt="' + p.alt + '" onerror="this.outerHTML=\'<div class=\\'modal-img placeholder\\'>[ image ]</div>\'">';
+      } else {
+        imgContainer.innerHTML = '<div class="modal-img placeholder">[ screenshot ]</div>';
+      }
+      document.getElementById('modal-link-container').innerHTML =
+        p.link ? '<a class="modal-link" href="' + p.link + '" target="_blank">View live ↗</a>' : '';
+      document.getElementById('modal').classList.add('open');
+    }
+
+    function closeModal(e) {
+      if (e.target === document.getElementById('modal')) {
+        document.getElementById('modal').classList.remove('open');
+      }
+    }
+
+    function closeModalDirect() {
+      document.getElementById('modal').classList.remove('open');
+    }
+  </script>
+</body>
+</html>
